@@ -2,8 +2,12 @@
 // Strategy: cache-first for the app shell (index.html, manifest — the bundle
 // is inlined into index.html so it's covered automatically), network-first
 // for anything else (so news/data always tries fresh before falling back).
-// Bump CACHE_NAME whenever you ship a new build so old clients pick it up.
-const CACHE_NAME = 'thfc-dashboard-v1';
+// CACHE_NAME is auto-versioned by build.js on every build (see mrgg1ujy
+// below) — this used to be a static string that never changed, meaning the
+// browser could never detect a new deploy and kept serving old cached
+// index.html indefinitely. Now every `node build.js` run bakes in a fresh
+// timestamp, so returning visitors always pick up the latest build.
+const CACHE_NAME = 'thfc-dashboard-mrgg1ujy';
 const SHELL_FILES = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
